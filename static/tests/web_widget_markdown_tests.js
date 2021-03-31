@@ -78,31 +78,21 @@ QUnit.module('Markdown Widget Tests', {
             form.destroy();
         });
         QUnit.test('web_widget_markdown edit form', async function(assert) {
-            assert.expect(3);
+            assert.expect(2);
             var form = await testUtils.createView({
                 View: FormView,
                 model: 'blog',
                 data: this.data,
                 arch: '<form string="Blog">' +
                         '<group>' +
-                        '<field name="name"/>' +
+                            '<field name="name"/>' +
                             '<field name="content" widget="markdown"/>' +
                         '</group>' +
                     '</form>',
                 res_id: 1,
             });
             await testUtils.form.clickEdit(form);
-
-            // await testUtils.fields.editInput(form.$('.o_field_markdown'), '**bold content**');
-            var markdownField = _.find(form.renderer.allFieldWidgets)[1];
-            markdownField.simplemde.codemirror.setValue('**bold content**');
-            // markdownField.simplemde.value('**bold content**');
-            assert.strictEqual(
-                markdownField._getValue(), 
-                "**bold content**", 
-                "Value of odoo widget should be updated"
-            )
-
+            await testUtils.fields.editInput(form.$('.o_field_markdown'), '**bold content**');
             await testUtils.form.clickSave(form);
             assert.strictEqual(
                 form.$('.o_field_markdown').find("strong").length, 
