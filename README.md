@@ -1,6 +1,7 @@
 # Odoo 14.0 web widget Markdown
 This the source code for the [part 3 of the article written on codingdodo.com](https://codingdodo.com) about Test Driven Developement in Odoo 14 JavaScript.
 
+![Coding Dodo](https://res.cloudinary.com/phildl-cloudinary/image/upload/w_200/v1617638212/codingdodo/Coding_Dodo_rplksw.png)
 ## Odoo Widget
 This widget render markdown content stored in a Text field.
 
