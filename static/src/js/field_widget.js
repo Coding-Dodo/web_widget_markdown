@@ -1,25 +1,23 @@
 odoo.define('web_widget_markdown', function (require) {
 "use strict";
 
-var AbstractField = require('web.AbstractField');
 var fieldRegistry = require('web.field_registry');
 var basicFields = require('web.basic_fields');
 
 
-var markdownField = basicFields.FieldText.extend({
+var markdownField = basicFields.DebouncedField.extend(basicFields.TranslatableFieldMixin, {
     supportedFieldTypes: ['text'],
     template: 'FieldMarkdown',
     jsLibs: [
         '/web_widget_markdown/static/lib/simplemde.min.js',
     ],
+    events: {},
 
     /**
      * @constructor
      */
     init: function () {
         this._super.apply(this, arguments);
-        // this.tagName = 'div';
-        // this.autoResizeOptions = {min_height: 200};
         this.simplemde = {}
     },
 
@@ -32,14 +30,20 @@ var markdownField = basicFields.FieldText.extend({
     start: function () {
         if (this.mode === 'edit') {
             var $textarea = this.$el.find('textarea');
-            this.simplemde = new SimpleMDE({
+            var simplemdeConfig = {
                 element: $textarea[0],
                 initialValue: this.value,
-            });
-            var self = this;
-            this.simplemde.codemirror.on("change", function(){
-                self._setValue(self.simplemde.value());
-            })
+            }
+            if (this.nodeOptions) {
+                simplemdeConfig = {...simplemdeConfig, ...this.nodeOptions};
+            }
+            this.simplemde = new SimpleMDE(simplemdeConfig);
+            this.simplemde.codemirror.on("change", this._doDebouncedAction.bind(this));
+            this.simplemde.codemirror.on("blur", this._doAction.bind(this));
+            if (this.field.translate) {
+                this.$el = this.$el.add(this._renderTranslateButton());
+                this.$el.addClass('o_field_translate');
+            }
         }
         return this._super();
     },
