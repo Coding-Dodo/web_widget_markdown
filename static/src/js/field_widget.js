@@ -8,12 +8,10 @@ var basicFields = require('web.basic_fields');
 
 var markdownField = basicFields.FieldText.extend({
     supportedFieldTypes: ['text'],
-    // className: 'o_field_markdown',
     template: 'FieldMarkdown',
     jsLibs: [
         '/web_widget_markdown/static/lib/simplemde.min.js',
     ],
-    // events: {}, // events are triggered manually for this debounced widget
 
     /**
      * @constructor
@@ -55,22 +53,17 @@ var markdownField = basicFields.FieldText.extend({
         return this.simplemde.value();
     },
 
-    // /**
-    //  * @override destroy from AbstractField (Widget)
-    //  */
-    // destroy: function () {
-    //     this.simplemde = null;
-    //     this._super.apply(this, arguments);
-    // },
+    _formatValue: function (value) {
+        return this._super.apply(this, arguments) || '';
+    },
 
-    // /**
-    //  * return the SimpleMDE value
-    //  *
-    //  * @private
-    //  */
-    // _getValue: function () {
-    //     return this.simplemde.value();
-    // },
+    _renderEdit: function () {
+        this._super.apply(this, arguments);
+        var newValue = this._formatValue(this.value);
+        if (this.simplemde.value() !== newValue) {
+            this.simplemde.value(newValue);
+        }
+    },
 
     _renderReadonly: function () {
         this.$el.html(SimpleMDE.prototype.markdown(this.value));
