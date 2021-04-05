@@ -6,6 +6,7 @@
             <link rel="stylesheet" href="/web_widget_markdown/static/lib/simplemde.min.css"/>
             <script src="/web_widget_markdown/static/lib/simplemde.min.js"></script>
             <script src="/web_widget_markdown/static/src/js/field_widget.js" type="text/javascript" />
+            <link href="/web_widget_markdown/static/src/scss/styles.scss" rel="stylesheet" type="text/scss" />
         </xpath>
     </template>
 

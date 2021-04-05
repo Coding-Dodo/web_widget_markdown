@@ -18,7 +18,7 @@
     'data': [
         'views/templates.xml',
     ],
-    "qweb": [],
-    # only loaded in demonstration mode
-    'demo': [],
+    "qweb": [ 
+        'static/src/xml/qweb_template.xml',
+    ],
 }
