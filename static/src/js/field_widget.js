@@ -1,14 +1,15 @@
-odoo.define('my_field_widget', function (require) {
+odoo.define('web_widget_markdown', function (require) {
 "use strict";
 
 var fieldRegistry = require('web.field_registry');
+var basicFields = require('web.basic_fields');
 
 
 var markdownField = basicFields.DebouncedField.extend(basicFields.TranslatableFieldMixin, {
     supportedFieldTypes: ['text'],
     template: 'FieldMarkdown',
     jsLibs: [
-        '/my_library/static/lib/simplemde.min.js',
+        '/web_widget_markdown/static/lib/simplemde.min.js',
     ],
     events: {},
 
