@@ -2,7 +2,7 @@
 <templates>
     <t t-name="FieldMarkdown">
         <div class="o_field_markdown">
-            <textarea name="o_field_markdown_content" id="o_field_markdown_content"></textarea>
+            <textarea name="o_field_markdown" id="o_field_markdown"></textarea>
         </div>
     </t>
 </templates>

@@ -21,6 +21,4 @@
     "qweb": [ 
         'static/src/xml/qweb_template.xml',
     ],
-    # only loaded in demonstration mode
-    'demo': [],
 }

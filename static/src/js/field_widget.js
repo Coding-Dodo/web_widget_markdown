@@ -1,17 +1,16 @@
 odoo.define('my_field_widget', function (require) {
 "use strict";
 
-var AbstractField = require('web.AbstractField');
 var fieldRegistry = require('web.field_registry');
 
 
-var markdownField = AbstractField.extend({
+var markdownField = basicFields.DebouncedField.extend(basicFields.TranslatableFieldMixin, {
     supportedFieldTypes: ['text'],
     template: 'FieldMarkdown',
-    events: {}, // events are triggered manually for this debounced widget
     jsLibs: [
         '/my_library/static/lib/simplemde.min.js',
     ],
+    events: {},
 
     /**
      * @constructor
@@ -22,51 +21,30 @@ var markdownField = AbstractField.extend({
     },
 
     /**
-     * As it it done in the start function, the autoresize is done only once.
-     *
+     * When the the widget render, check view mode, if edit we
+     * instanciate our SimpleMDE
+     * 
      * @override
      */
     start: function () {
-        var self = this;
         if (this.mode === 'edit') {
             var $textarea = this.$el.find('textarea');
-            var simpleMdeConfig = {
-                element: $textarea[0], 
+            var simplemdeConfig = {
+                element: $textarea[0],
                 initialValue: this.value,
-                placeholder: "Type here...",
-                autofocus: false,
-                renderingConfig: {
-                    codeSyntaxHighlighting: true,
-                },
             }
-            if(this.nodeOptions.autosave) {
-                simpleMdeConfig.autosave = {
-                    enabled: true,
-                    uniqueId: "markdown-"+this.model+this.res_id,
-                    delay: 1000
-                };
+            if (this.nodeOptions) {
+                simplemdeConfig = {...simplemdeConfig, ...this.nodeOptions};
             }
-            if(this.nodeOptions.placeholder) {
-                simpleMdeConfig.placeholder = this.nodeOptions.placeholder;
+            this.simplemde = new SimpleMDE(simplemdeConfig);
+            this.simplemde.codemirror.on("change", this._doDebouncedAction.bind(this));
+            this.simplemde.codemirror.on("blur", this._doAction.bind(this));
+            if (this.field.translate) {
+                this.$el = this.$el.add(this._renderTranslateButton());
+                this.$el.addClass('o_field_translate');
             }
-            
-            this.simplemde = new SimpleMDE(simpleMdeConfig);
-            this.simplemde.codemirror.on("change", function(){
-                self._setValue(self.simplemde.value());
-            })
-            // If inehrit basicFields.DebouncedField
-            // this.simplemde.codemirror.on("change", this._doDebouncedAction.bind(this))
-            self._setValue(self.simplemde.value());
         }
         return this._super();
-    },
-
-    /**
-     * @override destroy from AbstractField (Widget)
-     */
-    destroy: function () {
-        this.simplemde = null;
-        this._super.apply(this, arguments);
     },
 
     /**
@@ -76,6 +54,18 @@ var markdownField = AbstractField.extend({
      */
     _getValue: function () {
         return this.simplemde.value();
+    },
+
+    _formatValue: function (value) {
+        return this._super.apply(this, arguments) || '';
+    },
+
+    _renderEdit: function () {
+        this._super.apply(this, arguments);
+        var newValue = this._formatValue(this.value);
+        if (this.simplemde.value() !== newValue) {
+            this.simplemde.value(newValue);
+        }
     },
 
     _renderReadonly: function () {
