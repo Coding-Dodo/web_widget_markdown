@@ -70,7 +70,7 @@ var markdownField = basicFields.DebouncedField.extend(basicFields.TranslatableFi
     },
 
     _renderReadonly: function () {
-        this.$el.html(SimpleMDE.prototype.markdown(this.value));
+        this.$el.html(SimpleMDE.prototype.markdown(this._formatValue(this.value)));
     },
 });
 
