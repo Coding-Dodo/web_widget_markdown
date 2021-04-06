@@ -32,4 +32,4 @@ Do not contact contributors directly about support or help with technical issues
 Big thanks to the authors of [SimpleMDE](https://github.com/sparksuite/simplemde-markdown-editor).
 
 ### Widget Author
-![Coding Dodo](https://res.cloudinary.com/phildl-cloudinary/image/upload/w_300/v1617638212/codingdodo/Coding_Dodo_rplksw.png)
+[![Coding Dodo](https://res.cloudinary.com/phildl-cloudinary/image/upload/w_300/v1617638212/codingdodo/Coding_Dodo_rplksw.png)](https://codingdodo.com)
