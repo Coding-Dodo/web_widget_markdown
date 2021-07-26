@@ -33,6 +33,7 @@ var markdownField = basicFields.DebouncedField.extend(basicFields.TranslatableFi
             var simplemdeConfig = {
                 element: $textarea[0],
                 initialValue: this.value,
+                uniqueId: "markdown-"+this.model+this.res_id,
             }
             if (this.nodeOptions) {
                 simplemdeConfig = {...simplemdeConfig, ...this.nodeOptions};
