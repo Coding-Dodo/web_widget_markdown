@@ -25,6 +25,9 @@
         "web.assets_qweb": [
             "/web_widget_markdown/static/src/xml/qweb_template.xml",
         ],
+        "web.qunit_suite_tests": [
+            "/web_widget_markdown/static/tests/web_widget_markdown_tests.js",
+        ],
     },
     "auto_install": False,
     "installable": True,
