@@ -1,4 +1,4 @@
-# Odoo 14.0 web widget Markdown
+# Odoo 15.0 web widget Markdown
 
 This widget add a markdown Editor to Text field. In Edit mode the Editor is fuly usable
 and in readonly mode the widget shows a naive transformation of markdown to HTML as a preview.
