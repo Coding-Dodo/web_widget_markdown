@@ -9,7 +9,8 @@ var markdownField = basicFields.DebouncedField.extend(basicFields.TranslatableFi
     supportedFieldTypes: ['text'],
     template: 'FieldMarkdown',
     jsLibs: [
-        '/web_widget_markdown/static/lib/simplemde.min.js',
+        '/web_widget_markdown/static/lib/easymde.min.js',
+        '/web_widget_markdown/static/lib/marked.min.js',
     ],
     events: {},
 
@@ -18,29 +19,29 @@ var markdownField = basicFields.DebouncedField.extend(basicFields.TranslatableFi
      */
     init: function () {
         this._super.apply(this, arguments);
-        this.simplemde = {}
+        this.easymde = {}
     },
 
     /**
      * When the the widget render, check view mode, if edit we
-     * instanciate our SimpleMDE
+     * instanciate our EasyMDE
      * 
      * @override
      */
     start: function () {
         if (this.mode === 'edit') {
             var $textarea = this.$el.find('textarea');
-            var simplemdeConfig = {
+            var easymdeConfig = {
                 element: $textarea[0],
                 initialValue: this.value,
                 uniqueId: "markdown-"+this.model+this.res_id,
             }
             if (this.nodeOptions) {
-                simplemdeConfig = {...simplemdeConfig, ...this.nodeOptions};
+                easymdeConfig = {...easymdeConfig, ...this.nodeOptions};
             }
-            this.simplemde = new SimpleMDE(simplemdeConfig);
-            this.simplemde.codemirror.on("change", this._doDebouncedAction.bind(this));
-            this.simplemde.codemirror.on("blur", this._doAction.bind(this));
+            this.easymde = new EasyMDE(easymdeConfig);
+            this.easymde.codemirror.on("change", this._doDebouncedAction.bind(this));
+            this.easymde.codemirror.on("blur", this._doAction.bind(this));
             if (this.field.translate) {
                 this.$el = this.$el.add(this._renderTranslateButton());
                 this.$el.addClass('o_field_translate');
@@ -50,12 +51,12 @@ var markdownField = basicFields.DebouncedField.extend(basicFields.TranslatableFi
     },
 
     /**
-     * return the SimpleMDE value
+     * return the EasyMDE value
      *
      * @private
      */
     _getValue: function () {
-        return this.simplemde.value();
+        return this.easymde.value();
     },
 
     _formatValue: function (value) {
@@ -65,13 +66,17 @@ var markdownField = basicFields.DebouncedField.extend(basicFields.TranslatableFi
     _renderEdit: function () {
         this._super.apply(this, arguments);
         var newValue = this._formatValue(this.value);
-        if (this.simplemde.value() !== newValue) {
-            this.simplemde.value(newValue);
+        if (this.easymde.value() !== newValue) {
+            this.easymde.value(newValue);
         }
     },
 
     _renderReadonly: function () {
-        this.$el.html(SimpleMDE.prototype.markdown(this._formatValue(this.value)));
+        var value = this._formatValue(this.value);
+        if (marked) { // Use the marked lib to convert.
+            value = marked.marked(value);
+        }
+        this.$el.html(value);
     },
 });
 

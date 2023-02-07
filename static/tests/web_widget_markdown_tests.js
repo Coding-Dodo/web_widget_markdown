@@ -79,7 +79,7 @@ QUnit.module('Markdown Widget Tests', {
             )
             form.destroy();
         });
-        QUnit.test('web_widget_markdown SimpleMDE is present', async function(assert) {
+        QUnit.test('web_widget_markdown EasyMDE is present', async function(assert) {
             assert.expect(1);
             var form = await testUtils.createView({
                 View: FormView,
@@ -101,7 +101,7 @@ QUnit.module('Markdown Widget Tests', {
             )
             form.destroy();
         });
-        QUnit.test('web_widget_markdown edit SimpleMDE', async function(assert) {
+        QUnit.test('web_widget_markdown edit EasyMDE', async function(assert) {
             assert.expect(4);
             var form = await testUtils.createView({
                 View: FormView,
@@ -119,16 +119,16 @@ QUnit.module('Markdown Widget Tests', {
             var markdownField = _.find(form.renderer.allFieldWidgets)[1];
 
             assert.strictEqual(
-                markdownField.simplemde.value(),
+                markdownField.easymde.value(),
                 "# Hello world", 
-                "Initial Value of SimpleMDE should be set"
+                "Initial Value of EasyMDE should be set"
             )
 
-            markdownField.simplemde.value('**bold content**');
+            markdownField.easymde.value('**bold content**');
             assert.strictEqual(
                 markdownField._getValue(),
                 "**bold content**", 
-                "If we change value in SimpleMDE, value of odoo widget should be updated"
+                "If we change value in EasyMDE, value of odoo widget should be updated"
             )
 
             await testUtils.form.clickSave(form);
@@ -217,7 +217,7 @@ QUnit.module('Markdown Widget Tests', {
             assert.strictEqual(markdownField._getValue(), "# Hellow mister Johns",
                 "the new translation was not transfered to modified record");
 
-            markdownField.simplemde.value('**This is new English content**');
+            markdownField.easymde.value('**This is new English content**');
             await testUtils.nextTick(); 
             // Need to wait nextTick for data to be in markdownField.value and passed 
             // to the next dialog open
@@ -234,7 +234,7 @@ QUnit.module('Markdown Widget Tests', {
             _t.database.multi_lang = multiLang;
         });
 
-        QUnit.test('web_widget_markdown passing property to SimpleMDE', async function(assert) {
+        QUnit.test('web_widget_markdown passing property to EasyMDE', async function(assert) {
             assert.expect(1);
             var form = await testUtils.createView({
                 View: FormView,
@@ -251,9 +251,9 @@ QUnit.module('Markdown Widget Tests', {
             await testUtils.form.clickEdit(form);
             var markdownField = _.find(form.renderer.allFieldWidgets)[1];
             assert.strictEqual(
-                markdownField.simplemde.options.placeholder,
+                markdownField.easymde.options.placeholder,
                 "Begin writing here...", 
-                "SimpleMDE should have the correct placeholder"
+                "EasyMDE should have the correct placeholder"
             );
 
             await testUtils.form.clickSave(form);
