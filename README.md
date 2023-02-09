@@ -3,7 +3,7 @@
 This widget add a markdown Editor to Text field. In Edit mode the Editor is fuly usable
 and in readonly mode the widget shows a naive transformation of markdown to HTML as a preview.
 
-This module uses the JavaScript library [SimpleMDE](https://simplemde.com/) as a Markdown Editor for the client.
+This module uses the JavaScript library [EasyMDE](https://github.com/Ionaru/easy-markdown-editor) as a Markdown Editor for the client.
 
 And the python [Markdown library](https://github.com/Python-Markdown/markdown) for backend usage.
 
@@ -31,7 +31,7 @@ In your xml view, add `widget="markdown"` to any Text field.
 
 ### Options
 
-In the options attribute, pass any options of [SimpleMDE](https://github.com/sparksuite/simplemde-markdown-editor#configuration) configuration.
+In the options attribute, pass any options of [EasyMDE](https://github.com/Ionaru/easy-markdown-editor#configuration) configuration.
 
 ## Usage in report / Website templates
 
@@ -49,8 +49,12 @@ Do not contact contributors directly about support or help with technical issues
 
 ## Credits
 
-Big thanks to the authors of [SimpleMDE](https://github.com/sparksuite/simplemde-markdown-editor).
+Big thanks to the authors of [EasyMDE](https://github.com/Ionaru/easy-markdown-editor), which is based on [SimpleMDE](https://github.com/sparksuite/simplemde-markdown-editor).
 
 ### Widget Author
 
 [![Coding Dodo](https://res.cloudinary.com/phildl-cloudinary/image/upload/w_300/v1617638212/codingdodo/Coding_Dodo_rplksw.png)](https://codingdodo.com)
+
+### Widget Contributors
+
+* [XCG](https://xcg-consulting.fr/)
